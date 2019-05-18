@@ -1,18 +1,20 @@
-CREATE TABLE public.GOD(
+CREATE DATABASE book_store;
+
+CREATE TABLE book_store.public.GOD(
   god_id SERIAL PRIMARY KEY
   , god_nm VARCHAR(20) NOT NULL UNIQUE
   , god_desc VARCHAR(255)
   , is_canon_flg BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE public.LANGUAGE(
+CREATE TABLE book_store.public.LANGUAGE(
   language_id SERIAL PRIMARY KEY
   , language_nm VARCHAR(20) NOT NULL UNIQUE
   , language_desc VARCHAR(255)
   , is_canon_flg BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE public.RACE(
+CREATE TABLE book_store.public.RACE(
   race_id SERIAL PRIMARY KEY
   , god_id SERIAL
   , language_id SERIAL
@@ -23,7 +25,7 @@ CREATE TABLE public.RACE(
   , FOREIGN KEY(language_id) REFERENCES public.LANGUAGE (language_id)
 );
 
-CREATE TABLE public.AUTHOR(
+CREATE TABLE book_store.public.AUTHOR(
   author_id SERIAL PRIMARY KEY
   , first_nm VARCHAR(20) NOT NULL
   , second_nm VARCHAR(20) NOT NULL
@@ -32,7 +34,7 @@ CREATE TABLE public.AUTHOR(
   , status_txt VARCHAR(20) NOT NULL DEFAULT 'Follower'
 );
 
-CREATE TABLE public.COMPOSITION(
+CREATE TABLE book_store.public.COMPOSITION(
   composition_id SERIAL PRIMARY KEY
   , author_id SERIAL
   , composition_nm VARCHAR(75) NOT NULL UNIQUE
@@ -42,21 +44,21 @@ CREATE TABLE public.COMPOSITION(
   , FOREIGN KEY(author_id) REFERENCES public.AUTHOR (author_id)
 );
 
-CREATE TABLE public.CUSTOMER(
+CREATE TABLE book_store.public.CUSTOMER(
   customer_id SERIAL PRIMARY KEY
   , first_nm VARCHAR(20)
   , second_nm VARCHAR(20)
   , purchase_cnt INTEGER DEFAULT 0 CHECK (purchase_cnt>=0)
 );
 
-CREATE TABLE public.PURCHASE(
+CREATE TABLE book_store.public.PURCHASE(
   purchase_id SERIAL PRIMARY KEY
   , purchase_dt DATE NOT NULL
   , customer_id SERIAL
   , FOREIGN KEY(customer_id) REFERENCES public.CUSTOMER (customer_id)
 );
 
-CREATE TABLE GOD_X_COMPOSITION(
+CREATE TABLE book_store.public.GOD_X_COMPOSITION(
   god_id SERIAL
   , composition_id SERIAL
   , PRIMARY KEY (god_id, composition_id)
@@ -64,7 +66,7 @@ CREATE TABLE GOD_X_COMPOSITION(
   , FOREIGN KEY(composition_id) REFERENCES public.COMPOSITION (composition_id)
 );
 
-CREATE TABLE RACE_X_COMPOSITION(
+CREATE TABLE book_store.public.RACE_X_COMPOSITION(
   race_id SERIAL
   , composition_id SERIAL
   , PRIMARY KEY (race_id, composition_id)
@@ -72,7 +74,7 @@ CREATE TABLE RACE_X_COMPOSITION(
   , FOREIGN KEY(composition_id) REFERENCES public.COMPOSITION (composition_id)
 );
 
-CREATE TABLE LANGUAGE_X_COMPOSITION(
+CREATE TABLE book_store.public.LANGUAGE_X_COMPOSITION(
   language_id SERIAL
   , composition_id SERIAL
   , PRIMARY KEY (language_id, composition_id)
@@ -80,7 +82,7 @@ CREATE TABLE LANGUAGE_X_COMPOSITION(
   , FOREIGN KEY(composition_id) REFERENCES public.COMPOSITION (composition_id)
 );
 
-CREATE TABLE PURCHASE_X_COMPOSITION(
+CREATE TABLE book_store.public.PURCHASE_X_COMPOSITION(
   purchase_id SERIAL
   , composition_id SERIAL
   , PRIMARY KEY (purchase_id, composition_id)
